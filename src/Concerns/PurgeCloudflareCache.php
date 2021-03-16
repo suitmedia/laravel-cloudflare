@@ -4,6 +4,7 @@ namespace Suitmedia\Cloudflare\Concerns;
 
 use Exception;
 use GuzzleHttp\Client;
+use Suitmedia\Cloudflare\CloudflareService;
 
 trait PurgeCloudflareCache
 {
@@ -12,11 +13,11 @@ trait PurgeCloudflareCache
      *
      * @throws Exception
      *
-     * @return void
+     * @return int
      */
-    public function purgeAll(): void
+    public function purgeAll(): int
     {
-        $this->sendPurgeRequest([
+        return $this->sendPurgeRequest([
             'purge_everything' => true,
         ]);
     }
@@ -28,11 +29,11 @@ trait PurgeCloudflareCache
      *
      * @throws Exception
      *
-     * @return void
+     * @return int
      */
-    public function purgeByUrl(string $urls): void
+    public function purgeByUrls(array $urls): int
     {
-        $this->sendPurgeRequest([
+        return $this->sendPurgeRequest([
             'files' => $urls,
         ]);
     }
@@ -45,11 +46,11 @@ trait PurgeCloudflareCache
      *
      * @throws Exception
      *
-     * @return void
+     * @return int
      */
-    public function purgeByPrefixes(array $prefixes): void
+    public function purgeByPrefixes(array $prefixes): int
     {
-        $this->sendPurgeRequest([
+        return $this->sendPurgeRequest([
             'prefixes' => $prefixes,
         ]);
     }
@@ -62,11 +63,11 @@ trait PurgeCloudflareCache
      *
      * @throws Exception
      *
-     * @return void
+     * @return int
      */
-    public function purgeByHosts(array $hosts): void
+    public function purgeByHosts(array $hosts): int
     {
-        $this->sendPurgeRequest([
+        return $this->sendPurgeRequest([
             'hosts' => $hosts,
         ]);
     }
@@ -79,32 +80,13 @@ trait PurgeCloudflareCache
      *
      * @throws Exception
      *
-     * @return void
+     * @return int
      */
-    public function purgeByTags(array $tags): void
+    public function purgeByTags(array $tags): int
     {
-        $this->sendPurgeRequest([
+        return $this->sendPurgeRequest([
             'tags' => $tags,
         ]);
-    }
-
-    /**
-     * Get the Cloudflare zone id
-     *
-     * @return string | null
-     */
-    protected function getZoneId(): string
-    {
-        $sitename = $this->getConfig('sitename');
-        $guzzle = $this->getGuzzle();
-        $response = $guzzle->request('GET', '/zones', ['query' => ['name' => $sitename]]);
-        if ($response->getStatusCode() == 200) {
-            $data = json_decode($resp->getBody(), true);
-            
-            return $data['result'][0]['id'];
-        }
-
-        return null;
     }
 
     /**
@@ -114,14 +96,50 @@ trait PurgeCloudflareCache
      *
      * @throws Exception
      *
-     * @return void
+     * @return int
      */
-    protected function sendPurgeRequest(array $params): void
+    protected function sendPurgeRequest(array $params): int
     {
         $guzzle = $this->getGuzzle();
-        $zoneId = $this->getZoneId();
-        $url = 'zones/'.$zoneId.'/purge_cache';
-        $guzzle->request('POST', $url, ['body' => $params]);
+        $url = CloudflareService::BASE_URI.'/zones/'.$this->getZoneId().'/purge_cache';
+        $response = $guzzle->request('POST', $url, [
+            'headers' => [
+                'X-Auth-Key'   => $this->getConfig('auth_key'),
+                'X-Auth-Email' => $this->getConfig('auth_email'),
+            ],
+            'body'    => json_encode($params),
+        ]);
+
+        return $response->getStatusCode();
+    }
+
+    /**
+     * Get the Cloudflare zone id
+     *
+     * @return string | null
+     */
+    protected function getZoneId(): string
+    {
+        $cacheKey = 'laravel-cloudflare-zone-id';
+        $ttl = \Carbon\Carbon::now()->addSeconds(86400);
+        return \Cache::remember($cacheKey, $ttl, function () {
+            $sitename = $this->getConfig('sitename');
+            $guzzle = $this->getGuzzle();
+            $response = $guzzle->request('GET', $this::BASE_URI.'/zones', [
+                'query'   => ['name' => $sitename],
+                'headers' => [
+                    'X-Auth-Key'   => $this->getConfig('auth_key'),
+                    'X-Auth-Email' => $this->getConfig('auth_email'),
+                ]
+            ]);
+            if ($response->getStatusCode() == 200) {
+                $data = json_decode($response->getBody(), true);
+
+                return $data['result'][0]['id'];
+            }
+
+            return null;
+        });        
     }
 
     /**

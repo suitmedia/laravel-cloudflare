@@ -98,29 +98,6 @@ class CloudflareObserverTests extends TestCase
     }
 
     /** @test */
-    public function it_would_set_last_modified_with_the_newest_updated_at_timestamp()
-    {
-        $expected = User::orderBy('updated_at', 'desc')->first()->updated_at;
-
-        User::all();
-
-        $actual = \Cloudflare::getLastModifiedHeader();
-
-        $this->assertInstanceOf(Carbon::class, $actual);
-        $this->assertEquals($expected->getTimestamp(), $actual->getTimestamp());
-    }
-
-    /** @test */
-    public function it_cant_set_last_modified_when_there_was_no_updated_at_columns_available()
-    {
-        User::all(['id', 'name', 'email']);
-
-        $actual = \Cloudflare::getLastModifiedHeader();
-
-        $this->assertNull($actual);
-    }
-
-    /** @test */
     public function serialized_events_can_be_unserialized_without_any_errors_with_soft_deleted_model()
     {
         $user = User::find(3);

@@ -48,10 +48,6 @@ class CloudflareObserver
     protected function handleModelInitialization(Model $model): void
     {
         $updatedAt = $model->getAttribute('updated_at');
-
-        if ($updatedAt !== null) {
-            $this->cloudflare->setLastModifiedHeader($updatedAt);
-        }
     }
 
     /**

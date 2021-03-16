@@ -28,10 +28,9 @@ class CloudflareServiceTests extends TestCase
     /** @test */
     public function it_returns_configuration_values_correctly()
     {
-        $this->assertEquals(8888, $this->service->getConfig('varnish_port'));
-        $this->assertEquals('localhost:8000', $this->service->getConfig('application_hosts'));
-
-        $this->assertEquals('X-Varnish-Cacheable', $this->service->getConfig('cacheable_header'));
+        $this->assertEquals('test.com', $this->service->getConfig('sitename'));
+        $this->assertEquals('example@domain.com', $this->service->getConfig('auth_email'));
+        $this->assertEquals('test_auth_key', $this->service->getConfig('auth_key'));
     }
 
     /** @test */
@@ -43,11 +42,11 @@ class CloudflareServiceTests extends TestCase
     }
 
     /** @test */
-    public function it_can_set_configuration_values_at_runtime()
+    public function it_can_set_sitename_values_at_runtime()
     {
-        $this->service->setConfig('cache_duration', 600);
+        $this->service->setConfig('sitename', 'example.com');
 
-        $this->assertEquals(600, $this->service->getConfig('cache_duration'));
+        $this->assertEquals('example.com', $this->service->getConfig('sitename'));
     }
 
     /** @test */

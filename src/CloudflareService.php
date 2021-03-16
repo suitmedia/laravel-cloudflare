@@ -9,7 +9,7 @@ class CloudflareService
 {
     use PurgeCloudflareCache;
 
-    const BASE_URI = 'https://api.cloudflare.com/client/v4/';
+    const BASE_URI = 'https://api.cloudflare.com/client/v4';
 
     /**
      * Cloudflare configurations.

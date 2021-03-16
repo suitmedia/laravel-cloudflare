@@ -29,7 +29,7 @@ abstract class TestCase extends BaseTest
             'database' => ':memory:',
             'prefix' => '',
         ]);
-        $app['config']->set('laravel-cloudflare.sitename', 'localhost:8000');
+        $app['config']->set('laravel-cloudflare.sitename', 'test.com');
 
         $this->app = $app;
     }

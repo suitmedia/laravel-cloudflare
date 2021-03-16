@@ -10,7 +10,7 @@ return [
     | Specify the sitename of the Cloudflare.
     |
     */
-    'sitename' => env('CLOUDFLARE_SITE'),
+    'sitename' => env('CLOUDFLARE_SITE', 'test.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -20,7 +20,7 @@ return [
     | Specify the authentication email to access Cloudflare.
     |
     */
-    'auth_email' => env('CLOUDFLARE_AUTH_EMAIL'),
+    'auth_email' => env('CLOUDFLARE_AUTH_EMAIL', 'example@domain.com'),
 
     /*
     |--------------------------------------------------------------------------
@@ -30,5 +30,5 @@ return [
     | Specify the authentication key to access Cloudflare.
     |
     */
-    'auth_key' => env('CLOUDFLARE_AUTH_KEY'),
+    'auth_key' => env('CLOUDFLARE_AUTH_KEY', 'test_auth_key'),
 ];
