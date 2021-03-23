@@ -1,7 +1,7 @@
 [![Build Status](https://github.com/suitmedia/laravel-cloudflare/actions/workflows/main.yml/badge.svg?branch=main)](https://github.com/suitmedia/laravel-cloudflare/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/suitmedia/laravel-cloudflare/branch/main/graph/badge.svg?token=5EK3CL6SYE)](https://codecov.io/gh/suitmedia/laravel-cloudflare)
-[![Total Downloads](https://poser.pugx.org/suitmedia/laravel-cloudflare/d/total.svg)](https://packagist.org/packages/richan-fongdasen/laravel-gcr-worker)
-[![Latest Stable Version](https://poser.pugx.org/suitmedia/laravel-cloudflare/v/stable.svg)](https://packagist.org/packages/richan-fongdasen/laravel-gcr-worker)
+[![Total Downloads](https://poser.pugx.org/suitmedia/laravel-cloudflare/d/total.svg)](https://packagist.org/packages/suitmedia/laravel-cloudflare)
+[![Latest Stable Version](https://poser.pugx.org/suitmedia/laravel-cloudflare/v/stable.svg)](https://packagist.org/packages/suitmedia/laravel-cloudflare)
 [![License: MIT](https://poser.pugx.org/suitmedia/laravel-cloudflare/license.svg)](https://opensource.org/licenses/MIT)
 
 # Laravel Cloudflare

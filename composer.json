@@ -1,6 +1,6 @@
 {
   "name": "suitmedia/laravel-cloudflare",
-  "description": "Simple and easy cloudflare integration in Laravel",
+  "description": "Simple and easy cloudflare cache purging in Laravel",
   "type": "library",
   "license": "MIT",
   "homepage": "https://github.com/suitmedia/laravel-cloudflare",
