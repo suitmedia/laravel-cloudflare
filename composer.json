@@ -1,0 +1,93 @@
+{
+  "name": "suitmedia/laravel-cloudflare",
+  "description": "Simple and easy cloudflare integration in Laravel",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/suitmedia/laravel-cloudflare",
+  "keywords": [
+    "laravel",
+    "laravel-package",
+    "cloudflare"
+  ],
+  "authors": [
+    {
+      "name": "Niken Sawitri",
+      "email": "niken.sawitri1806@gmail.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/suitmedia/laravel-cloudflare/issues",
+    "source": "https://github.com/suitmedia/laravel-cloudflare"
+  },
+  "require": {
+    "php": "^7.4|^8.0",
+    "guzzlehttp/guzzle": "~7.0",
+    "illuminate/database": "^8.0",
+    "illuminate/support": "^8.0"
+  },
+  "require-dev": {
+    "ekino/phpstan-banned-code": "^0.3.1",
+    "mockery/mockery": "~1.3",
+    "orchestra/database": "^6.0",
+    "orchestra/testbench": "^6.0",
+    "phpmd/phpmd": "^2.9",
+    "phpstan/phpstan": "^0.12",
+    "phpstan/phpstan-deprecation-rules": "^0.12",
+    "phpstan/phpstan-strict-rules": "^0.12",
+    "phpunit/phpunit": "^9.3",
+    "sebastian/phpcpd": "^6.0"
+  },
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "Suitmedia\\Cloudflare\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Suitmedia\\Cloudflare\\Tests\\": "tests/",
+      "Database\\Factories\\": "tests/Supports/Factories/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Suitmedia\\Cloudflare\\ServiceProvider"
+      ],
+      "aliases": {
+        "Cloudflare": "Suitmedia\\Cloudflare\\Facade"
+      }
+    }
+  },
+  "scripts": {
+    "analyse": [
+      "composer check-syntax",
+      "composer phpstan-analysis",
+      "composer phpmd-analysis",
+      "vendor/bin/phpcpd --min-lines=3 --min-tokens=36 src/"
+    ],
+    "check-syntax": [
+      "! find src -type f -name \"*.php\" -exec php -l {} \\; |  grep -v 'No syntax errors'",
+      "! find tests -type f -name \"*.php\" -exec php -l {} \\; |  grep -v 'No syntax errors'"
+    ],
+    "phpstan-analysis": [
+      "@php -d memory_limit=-1 vendor/bin/phpstan analyse -c phpstan.neon --no-progress"
+    ],
+    "phpmd-analysis": [
+      "vendor/bin/phpmd src text codesize,controversial,design,naming,unusedcode,.phpmd.cleancode.xml"
+    ],
+    "cov-text": [
+      "phpdbg -qrr vendor/bin/phpunit --coverage-text"
+    ],
+    "cov-html": [
+      "phpdbg -qrr vendor/bin/phpunit --coverage-html coverage"
+    ],
+    "test": [
+      "vendor/bin/phpunit"
+    ]
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
