@@ -15,11 +15,11 @@ class CloudflareServiceTests extends TestCase
     protected $service;
 
     /**
-     * Setup the test environment
+     * Setup the test environment.
      *
      * @return void
      */
-    public function setUp() :void
+    public function setUp(): void
     {
         parent::setUp();
         $this->service = app(CloudflareService::class);

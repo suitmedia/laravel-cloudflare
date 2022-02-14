@@ -18,6 +18,6 @@ class Post extends AbstractModel
     protected $fillable = [
         'title',
         'description',
-        'content'
+        'content',
     ];
 }

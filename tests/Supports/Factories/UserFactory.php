@@ -18,20 +18,21 @@ class UserFactory extends Factory
     /**
      * Define the model's default state.
      *
-     * @return array
      * @throws \Exception
+     *
+     * @return array
      */
     public function definition()
     {
         $time = random_int(1483203600, 1530378000);
 
         return [
-            'name' => $this->faker->name,
-            'email' => $this->faker->email,
-            'password' => bcrypt(Str::random(12)),
+            'name'           => $this->faker->name,
+            'email'          => $this->faker->email,
+            'password'       => bcrypt(Str::random(12)),
             'remember_token' => Str::random(12),
-            'created_at' => '2016-01-01 00:00:00',
-            'updated_at' => date('Y-m-d H:i:s', $time),
+            'created_at'     => '2016-01-01 00:00:00',
+            'updated_at'     => date('Y-m-d H:i:s', $time),
         ];
     }
 }

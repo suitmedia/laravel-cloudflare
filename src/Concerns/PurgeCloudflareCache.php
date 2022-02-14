@@ -24,7 +24,7 @@ trait PurgeCloudflareCache
     }
 
     /**
-     * Purge the Cloudflare cache by urls
+     * Purge the Cloudflare cache by urls.
      *
      * @param array $urls
      *
@@ -93,7 +93,7 @@ trait PurgeCloudflareCache
     /**
      * Send the purge request to Cloudflare.
      *
-     * @param array  $params
+     * @param array $params
      *
      * @throws Exception
      *
@@ -115,7 +115,7 @@ trait PurgeCloudflareCache
     }
 
     /**
-     * Get the Cloudflare zone id
+     * Get the Cloudflare zone id.
      *
      * @return string | null
      */
@@ -123,6 +123,7 @@ trait PurgeCloudflareCache
     {
         $cacheKey = 'laravel-cloudflare-zone-id';
         $ttl = \Carbon\Carbon::now()->addSeconds(86400);
+
         return Cache::remember($cacheKey, $ttl, function () {
             $sitename = $this->getConfig('sitename');
             $guzzle = $this->getGuzzle();
@@ -131,7 +132,7 @@ trait PurgeCloudflareCache
                 'headers' => [
                     'X-Auth-Key'   => $this->getConfig('auth_key'),
                     'X-Auth-Email' => $this->getConfig('auth_email'),
-                ]
+                ],
             ]);
             if ($response->getStatusCode() == 200) {
                 $data = json_decode($response->getBody(), true);
@@ -140,7 +141,7 @@ trait PurgeCloudflareCache
             }
 
             return null;
-        });        
+        });
     }
 
     /**

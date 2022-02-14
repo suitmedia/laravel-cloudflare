@@ -2,7 +2,6 @@
 
 namespace Suitmedia\Cloudflare\Tests;
 
-use Carbon\Carbon;
 use Suitmedia\Cloudflare\Events\ModelHasUpdated;
 use Suitmedia\Cloudflare\Tests\Supports\Models\Post;
 use Suitmedia\Cloudflare\Tests\Supports\Models\User;
@@ -10,11 +9,11 @@ use Suitmedia\Cloudflare\Tests\Supports\Models\User;
 class CloudflareObserverTests extends TestCase
 {
     /**
-     * Setup the test environment
+     * Setup the test environment.
      *
      * @return void
      */
-    public function setUp() :void
+    public function setUp(): void
     {
         parent::setUp();
 

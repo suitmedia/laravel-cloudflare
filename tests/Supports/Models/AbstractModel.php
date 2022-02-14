@@ -27,20 +27,21 @@ abstract class AbstractModel extends Model
      * Determine if the current eloquent model have
      * retrieved event.
      *
-     * @return boolean
+     * @return bool
      */
     protected function hasRetrievedEvent()
     {
         $version = explode('.', Application::VERSION);
 
-        return (((int)$version[0] >= 5) && ((int)$version[1] >= 5));
+        return ((int) $version[0] >= 5) && ((int) $version[1] >= 5);
     }
 
     /**
      * Create a new model instance that is existing.
      *
-     * @param  array  $attributes
-     * @param  string|null  $connection
+     * @param array       $attributes
+     * @param string|null $connection
+     *
      * @return static
      */
     public function newFromBuilder($attributes = [], $connection = null)
@@ -48,7 +49,7 @@ abstract class AbstractModel extends Model
         $model = parent::newFromBuilder($attributes, $connection);
 
         if (!$this->hasRetrievedEvent()) {
-            event('eloquent.retrieved: ' . get_class($model), $model);
+            event('eloquent.retrieved: '.get_class($model), $model);
         }
 
         return $model;

@@ -20,6 +20,6 @@ class User extends AbstractModel
     protected $fillable = [
         'name',
         'email',
-        'password'
+        'password',
     ];
 }

@@ -2,7 +2,6 @@
 
 namespace Suitmedia\Cloudflare;
 
-use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Suitmedia\Cloudflare\Events\ModelHasUpdated;
 

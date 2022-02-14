@@ -8,16 +8,17 @@ use Orchestra\Testbench\TestCase as BaseTest;
 abstract class TestCase extends BaseTest
 {
     /**
-     * Application object
+     * Application object.
      *
      * @var \Illuminate\Foundation\Application
      */
     protected $app;
 
     /**
-     * Define environment setup
+     * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
+     *
      * @return void
      */
     protected function getEnvironmentSetUp($app)
@@ -25,9 +26,9 @@ abstract class TestCase extends BaseTest
         $app['config']->set('cache.default', 'array');
         $app['config']->set('database.default', 'testbench');
         $app['config']->set('database.connections.testbench', [
-            'driver' => 'sqlite',
+            'driver'   => 'sqlite',
             'database' => ':memory:',
-            'prefix' => '',
+            'prefix'   => '',
         ]);
         $app['config']->set('laravel-cloudflare.sitename', 'test.com');
 
@@ -35,9 +36,10 @@ abstract class TestCase extends BaseTest
     }
 
     /**
-     * Define package aliases
+     * Define package aliases.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
+     *
      * @return array
      */
     protected function getPackageAliases($app)
@@ -50,15 +52,16 @@ abstract class TestCase extends BaseTest
     }
 
     /**
-     * Define package service provider
+     * Define package service provider.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
+     *
      * @return array
      */
     protected function getPackageProviders($app)
     {
         $this->app = $app;
-        
+
         return [
             \Illuminate\Cache\CacheServiceProvider::class,
             \Illuminate\Events\EventServiceProvider::class,
@@ -68,13 +71,15 @@ abstract class TestCase extends BaseTest
     }
 
     /**
-     * Invoke protected / private method of the given object
+     * Invoke protected / private method of the given object.
      *
-     * @param Object $object
-     * @param String $methodName
-     * @param Array|array $parameters
-     * @return mixed
+     * @param object      $object
+     * @param string      $methodName
+     * @param array|array $parameters
+     *
      * @throws \ReflectionException
+     *
+     * @return mixed
      */
     protected function invokeMethod($object, $methodName, array $parameters = [])
     {
@@ -86,10 +91,11 @@ abstract class TestCase extends BaseTest
     }
 
     /**
-     * Get any protected / private property value
+     * Get any protected / private property value.
      *
-     * @param  mixed $object
-     * @param  string $propertyName
+     * @param mixed  $object
+     * @param string $propertyName
+     *
      * @return mixed
      */
     public function getPropertyValue($object, $propertyName)
@@ -97,7 +103,7 @@ abstract class TestCase extends BaseTest
         $reflection = new \ReflectionClass(get_class($object));
         $property = $reflection->getProperty($propertyName);
         $property->setAccessible(true);
- 
+
         return $property->getValue($object);
     }
 
@@ -105,7 +111,8 @@ abstract class TestCase extends BaseTest
      * Prepare database requirements
      * to perform any tests.
      *
-     * @param  string $migrationPath
+     * @param string $migrationPath
+     *
      * @return void
      */
     protected function prepareDatabase($migrationPath)
@@ -114,20 +121,20 @@ abstract class TestCase extends BaseTest
     }
 
     /**
-     * Setup the test environment
+     * Setup the test environment.
      *
      * @return void
      */
-    public function setUp() :void
+    public function setUp(): void
     {
         parent::setUp();
 
         $this->prepareDatabase(
-            realpath(__DIR__ . '/Supports/Migrations')
+            realpath(__DIR__.'/Supports/Migrations')
         );
 
         Factory::guessFactoryNamesUsing(function (string $modelName) {
-            return 'Database\\Factories\\' . class_basename($modelName) . 'Factory';
+            return 'Database\\Factories\\'.class_basename($modelName).'Factory';
         });
     }
 }

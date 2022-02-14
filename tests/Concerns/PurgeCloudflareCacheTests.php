@@ -3,12 +3,11 @@
 namespace Suitmedia\Cloudflare\Tests\Concerns;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
-use Illuminate\Container\Container;
-use Suitmedia\Cloudflare\Tests\TestCase;
+use GuzzleHttp\Psr7\Response;
 use Suitmedia\Cloudflare\CloudflareService;
+use Suitmedia\Cloudflare\Tests\TestCase;
 
 class PurgeCloudflareCacheTests extends TestCase
 {
@@ -20,14 +19,14 @@ class PurgeCloudflareCacheTests extends TestCase
     protected $guzzle;
 
     /**
-     * Dummy guzzle response
+     * Dummy guzzle response.
      *
      * @var Response
      */
     protected $response;
 
     /**
-     * API endpoint
+     * API endpoint.
      *
      * @var string
      */
@@ -41,17 +40,17 @@ class PurgeCloudflareCacheTests extends TestCase
     protected $service;
 
     /**
-     * Setup the test environment
+     * Setup the test environment.
      *
      * @return void
      */
-    public function setUp() :void
+    public function setUp(): void
     {
         parent::setUp();
         $this->mock = new MockHandler([
-            new Response(200, [], json_encode(['result' => [['id' => 'test']]]))
+            new Response(200, [], json_encode(['result' => [['id' => 'test']]])),
         ]);
-        
+
         $stack = HandlerStack::create($this->mock);
         $this->guzzle = new Client([
             'handler'  => $stack,
@@ -68,7 +67,7 @@ class PurgeCloudflareCacheTests extends TestCase
     public function it_can_send_purge_cache_request_to_purge_the_entire_cache()
     {
         $options = ['body' => ['purge_everything' => true]];
-        
+
         $this->mock->append(new Response(200, [], json_encode(['result' => [['id' => 'test']]])));
 
         $statusCode = $this->service->purgeAll();
@@ -83,8 +82,8 @@ class PurgeCloudflareCacheTests extends TestCase
                 'files' => [
                     'http://localhost:8000/products',
                     'http://localhost:8000/products/product-1',
-                ]
-            ]
+                ],
+            ],
         ];
         $this->mock->append(new Response(200, [], json_encode(['result' => [['id' => 'test']]])));
 
@@ -103,8 +102,8 @@ class PurgeCloudflareCacheTests extends TestCase
                 'prefixes' => [
                     '/products',
                     '/news',
-                ]
-            ]
+                ],
+            ],
         ];
         $this->mock->append(new Response(200, [], json_encode(['result' => [['id' => 'test']]])));
         $statusCode = $this->service->purgeByPrefixes(['/products', '/news']);
@@ -119,13 +118,13 @@ class PurgeCloudflareCacheTests extends TestCase
                 'hosts' => [
                     'http://localhost:8000',
                     'http://example.com',
-                ]
-            ]
+                ],
+            ],
         ];
         $this->mock->append(new Response(200, [], json_encode(['result' => [['id' => 'test']]])));
         $statusCode = $this->service->purgeByHosts([
             'http://localhost:8000',
-            'http://example.com'
+            'http://example.com',
         ]);
         $this->assertEquals(200, $statusCode);
     }
@@ -138,8 +137,8 @@ class PurgeCloudflareCacheTests extends TestCase
                 'tags' => [
                     'product-tag',
                     'news-tag',
-                ]
-            ]
+                ],
+            ],
         ];
         $this->mock->append(new Response(200, [], json_encode(['result' => [['id' => 'test']]])));
         $statusCode = $this->service->purgeByTags(['product-tag', 'news-tag']);
