@@ -2,6 +2,7 @@
 
 namespace Suitmedia\Cloudflare\Tests;
 
+use Illuminate\Support\Facades\Event;
 use Suitmedia\Cloudflare\Events\ModelHasUpdated;
 use Suitmedia\Cloudflare\Tests\Supports\Models\Post;
 use Suitmedia\Cloudflare\Tests\Supports\Models\User;
@@ -23,27 +24,33 @@ class CloudflareObserverTests extends TestCase
     /** @test */
     public function it_fires_model_has_updated_event_on_creating_new_record()
     {
-        $this->expectsEvents(ModelHasUpdated::class);
+        Event::fake([ModelHasUpdated::class]);
 
         User::factory()->create();
+
+        Event::assertDispatched(ModelHasUpdated::class);
     }
 
     /** @test */
     public function it_fires_model_has_updated_event_on_updating_record()
     {
-        $this->expectsEvents(ModelHasUpdated::class);
+        Event::fake([ModelHasUpdated::class]);
 
         $user = User::first();
         $user->name = 'Taylor Otwell';
         $user->save();
+
+        Event::assertDispatched(ModelHasUpdated::class);
     }
 
     /** @test */
     public function it_fires_model_has_updated_event_on_deleting_record()
     {
-        $this->expectsEvents(ModelHasUpdated::class);
+        Event::fake([ModelHasUpdated::class]);
 
         User::find(1)->delete();
+
+        Event::assertDispatched(ModelHasUpdated::class);
     }
 
     /** @test */
