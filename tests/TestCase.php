@@ -64,8 +64,8 @@ abstract class TestCase extends BaseTest
 
         return [
             \Illuminate\Cache\CacheServiceProvider::class,
+            \Illuminate\Database\DatabaseServiceProvider::class,
             \Illuminate\Events\EventServiceProvider::class,
-            \Orchestra\Database\ConsoleServiceProvider::class,
             \Suitmedia\Cloudflare\ServiceProvider::class,
         ];
     }
