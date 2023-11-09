@@ -169,7 +169,7 @@ jobs:
       - name: Install composer dependencies
         run: composer install --prefer-dist
       - name: Run the Coverage test suite
-        run: phpdbg -qrr -dmemory_limit=3G vendor/bin/phpunit --coverage-clover=clover.xml
+        run: vendor/bin/phpunit --coverage-clover=clover.xml
       - name: Upload test coverage report to codecov.io
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
